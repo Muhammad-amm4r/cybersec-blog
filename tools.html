@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Pro - Cybersecurity Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00f5ff;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #00f5ff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding-top: 120px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b0b0b0;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #00f5ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Tool Categories */
+        .tool-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            padding: 2rem;
+            width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 245, 255, 0.1);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(45deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 128, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .category-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00f5ff;
+        }
+
+        .category-card p {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-link {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 245, 255, 0.1);
+            color: #00f5ff;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .category-link:hover {
+            background: rgba(0, 245, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Featured Tools */
+        .featured-tools {
+            margin: 4rem 0;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080, #00ff88);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 245, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 245, 255, 0.1);
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+        }
+
+        .tool-title h3 {
+            font-size: 1.5rem;
+            color: #00f5ff;
+            margin-bottom: 0.3rem;
+        }
+
+        .tool-type {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .tool-rating {
+            display: flex;
+            gap: 3px;
+            color: #ff0080;
+        }
+
+        .tool-body p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features h4 {
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            color: #b0b0b0;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li::before {
+            content: '•';
+            color: #00f5ff;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .tool-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-link {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tool-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 128, 0.1));
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 4rem 0;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .newsletter h2 {
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #888;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 3rem 2rem 1rem;
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00f5ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .social-links a:hover {
+            background: rgba(0, 245, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 245, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">CyberSec Pro</div>
+            <ul class="nav-links">
+                <li><a href="cybersec_blog.html#home">Home</a></li>
+                <li><a href="cybersec_blog.html#blog">Blog</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Cybersecurity Tools</h1>
+        <p>Explore our curated collection of essential security tools for threat detection, vulnerability assessment, and network monitoring.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Tool Categories -->
+        <section class="tool-categories">
+            <div class="category-card">
+                <div class="category-icon">🛡️</div>
+                <h3>Vulnerability Scanners</h3>
+                <p>Tools for identifying security weaknesses in systems, networks, and applications.</p>
+                <a href="#vulnerability" class="category-link">Explore</a>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">🔍</div>
+                <h3>Network Monitoring</h3>
+                <p>Solutions for real-time traffic analysis and intrusion detection.</p>
+                <a href="#network" class="category-link">Explore</a>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">🔒</div>
+                <h3>Encryption Tools</h3>
+                <p>Secure data transmission and storage with advanced cryptographic solutions.</p>
+                <a href="#encryption" class="category-link">Explore</a>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">⚔️</div>
+                <h3>Penetration Testing</h3>
+                <p>Powerful frameworks for simulating cyber attacks and testing defenses.</p>
+                <a href="#pentest" class="category-link">Explore</a>
+            </div>
+        </section>
+
+        <!-- Featured Tools -->
+        <section class="featured-tools" id="vulnerability">
+            <h2 class="section-title">Vulnerability Scanners</h2>
+            <div class="tools-grid">
+                <article class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <h3>OpenVAS</h3>
+                            <div class="tool-type">Open Source</div>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <p>Comprehensive vulnerability scanner with over 50,000 vulnerability tests and regular updates.</p>
+                        <div class="tool-features">
+                            <h4>Key Features:</h4>
+                            <ul class="features-list">
+                                <li>Network vulnerability scanning</li>
+                                <li>Web application security testing</li>
+                                <li>Detailed vulnerability reports</li>
+                                <li>Risk assessment metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tool-footer">
+                        <span>Version: 21.4.3</span>
+                        <a href="#" class="tool-link">Download</a>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <h3>OWASP ZAP</h3>
+                            <div class="tool-type">Open Source</div>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <p>The world's most widely used web app scanner for finding vulnerabilities in web applications.</p>
+                        <div class="tool-features">
+                            <h4>Key Features:</h4>
+                            <ul class="features-list">
+                                <li>Automated scanning</li>
+                                <li>API scanning capabilities</li>
+                                <li>Active and passive scanners</li>
+                                <li>Browser integration</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tool-footer">
+                        <span>Version: 2.12.0</span>
+                        <a href="#" class="tool-link">Download</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="featured-tools" id="network">
+            <h2 class="section-title">Network Monitoring</h2>
+            <div class="tools-grid">
+                <article class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <h3>Wireshark</h3>
+                            <div class="tool-type">Open Source</div>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <p>The world's foremost network protocol analyzer for examining data packets in detail.</p>
+                        <div class="tool-features">
+                            <h4>Key Features:</h4>
+                            <ul class="features-list">
+                                <li>Deep inspection of hundreds of protocols</li>
+                                <li>Live capture and offline analysis</li>
+                                <li>Standard three-pane packet browser</li>
+                                <li>Cross-platform compatibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tool-footer">
+                        <span>Version: 3.6.2</span>
+                        <a href="#" class="tool-link">Download</a>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <h3>Suricata</h3>
+                            <div class="tool-type">Open Source</div>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <p>High-performance network IDS, IPS, and network security monitoring engine.</p>
+                        <div class="tool-features">
+                            <h4>Key Features:</h4>
+                            <ul class="features-list">
+                                <li>Real-time intrusion detection</li>
+                                <li>Multi-threading support</li>
+                                <li>File extraction and logging</li>
+                                <li>TLS/SSL certificate monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tool-footer">
+                        <span>Version: 6.0.5</span>
+                        <a href="#" class="tool-link">Download</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <h2>Stay Updated</h2>
+            <p>Get notified about the latest security tools, vulnerabilities, and exclusive tutorials.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#">📱</a>
+                <a href="#">🐦</a>
+                <a href="#">💼</a>
+                <a href="#">📧</a>
+            </div>
+            <p>&copy; 2024 CyberSec Pro. Securing the digital frontier.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animated particles background
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('particles').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Create particles continuously
+        setInterval(createParticle, 200);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.98)';
+                header.style.borderBottomColor = 'rgba(0, 245, 255, 0.3)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+                header.style.borderBottomColor = 'rgba(0, 245, 255, 0.2)';
+            }
+        });
+
+        // Newsletter form handler
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Thanks for subscribing! Stay secure! 🛡️');
+                this.reset();
+            }
+        });
+
+        // Add hover effects to tool cards
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html> 

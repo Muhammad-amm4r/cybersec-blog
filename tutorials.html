@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Pro - Cybersecurity Tutorials</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00f5ff;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #00f5ff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding-top: 120px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b0b0b0;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #00f5ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Tutorial Cards */
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .tutorial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .tutorial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(45deg, #00f5ff, #ff0080, #00ff88);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tutorial-card:hover::before {
+            opacity: 1;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 245, 255, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00f5ff;
+        }
+
+        .tutorial-card p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .difficulty {
+            display: flex;
+            align-items: center;
+        }
+
+        .difficulty span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 4px;
+            border-radius: 50%;
+            background: #00f5ff;
+        }
+
+        .difficulty .inactive {
+            background: rgba(0, 245, 255, 0.2);
+        }
+
+        .view-tutorial {
+            color: #ff0080;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-tutorial:hover {
+            color: #00f5ff;
+            transform: translateX(5px);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 50px;
+            color: #00f5ff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: rgba(0, 245, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 3rem 2rem 1rem;
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00f5ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .social-links a:hover {
+            background: rgba(0, 245, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 245, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00f5ff, #ff0080);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">CyberSec Pro</div>
+            <ul class="nav-links">
+                <li><a href="cybersec_blog.html#home">Home</a></li>
+                <li><a href="cybersec_blog.html#blog">Blog</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Cybersecurity Tutorials</h1>
+        <p>Step-by-step guides to help you master essential security skills, from penetration testing to secure coding practices.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Category Filters -->
+        <div class="categories">
+            <button class="category-btn active">All Tutorials</button>
+            <button class="category-btn">Penetration Testing</button>
+            <button class="category-btn">Network Security</button>
+            <button class="category-btn">Secure Coding</button>
+            <button class="category-btn">Malware Analysis</button>
+            <button class="category-btn">Cloud Security</button>
+        </div>
+
+        <!-- Tutorials Grid -->
+        <div class="tutorial-grid">
+            <article class="tutorial-card">
+                <h3>Setting Up a Secure Home Lab</h3>
+                <p>Build your own cybersecurity testing environment with virtualization tools, security appliances, and proper network segmentation.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span class="inactive"></span>
+                        <small>Intermediate</small>
+                    </div>
+                    <a href="tutorial-home-lab.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Penetration Testing with Kali Linux</h3>
+                <p>Comprehensive guide to ethical hacking using Kali Linux toolset for vulnerability scanning, exploitation, and reporting.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <small>Advanced</small>
+                    </div>
+                    <a href="tutorial-kali.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Secure Web Application Development</h3>
+                <p>Best practices for building secure web applications that prevent common vulnerabilities like XSS, CSRF, and SQL injection.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span class="inactive"></span>
+                        <small>Intermediate</small>
+                    </div>
+                    <a href="tutorial-secure-web.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Windows Defender Hardening</h3>
+                <p>Step-by-step guide to configuring Windows Defender for maximum security in enterprise environments.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span class="inactive"></span>
+                        <span class="inactive"></span>
+                        <small>Beginner</small>
+                    </div>
+                    <a href="tutorial-defender.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Network Traffic Analysis with Wireshark</h3>
+                <p>Learn to capture and analyze network traffic to identify suspicious activities and potential security breaches.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span class="inactive"></span>
+                        <small>Intermediate</small>
+                    </div>
+                    <a href="tutorial-wireshark.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Docker Container Security</h3>
+                <p>Securing containerized applications with proper isolation, reduced attack surface, and vulnerability scanning.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <small>Advanced</small>
+                    </div>
+                    <a href="tutorial-docker.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Secure Remote Access Implementation</h3>
+                <p>Setting up VPNs, SSH tunneling, and multi-factor authentication for secure remote access to critical systems.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span class="inactive"></span>
+                        <small>Intermediate</small>
+                    </div>
+                    <a href="tutorial-remote-access.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+
+            <article class="tutorial-card">
+                <h3>Security Incident Response</h3>
+                <p>Creating and implementing an effective incident response plan with proper documentation and team coordination.</p>
+                <div class="tutorial-meta">
+                    <div class="difficulty">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <small>Advanced</small>
+                    </div>
+                    <a href="tutorial-incident.html" class="view-tutorial">View Tutorial →</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#">📱</a>
+                <a href="#">🐦</a>
+                <a href="#">💼</a>
+                <a href="#">📧</a>
+            </div>
+            <p>&copy; 2024 CyberSec Pro. Securing the digital frontier.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animated particles background
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('particles').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Create particles continuously
+        setInterval(createParticle, 200);
+
+        // Category filters
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Filter logic would go here in a real implementation
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.98)';
+                header.style.borderBottomColor = 'rgba(0, 245, 255, 0.3)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+                header.style.borderBottomColor = 'rgba(0, 245, 255, 0.2)';
+            }
+        });
+
+        // Add hover effects to tutorial cards
+        document.querySelectorAll('.tutorial-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html> 
